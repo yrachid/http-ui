@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Get } from "../wailsjs/go/main/App";
 import { UrlBar } from "./UrlBar";
+import {RequestEditor} from "./RequestEditor";
 
 function App() {
   const [resultText, setResultText] = useState("");
@@ -35,6 +36,7 @@ function App() {
   return (
     <div id="App">
       <UrlBar onSend={sendGetRequest} />
+      <RequestEditor />
       <RequestBodyEditor text='{"ok": true}' />
       <ResponsePreview body={resultText} />
     </div>

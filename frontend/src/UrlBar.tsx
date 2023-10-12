@@ -7,9 +7,8 @@ import Option from "@mui/joy/Option";
 
 export const Container = styled.div`
   padding: 10px;
+  padding-bottom: 0px;
   display: flex;
-  border: solid 1px red;
-  width: 700px;
   font-family: monospace;
 `;
 
