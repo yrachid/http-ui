@@ -1,15 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 import { Get } from "../wailsjs/go/main/App";
+import { UrlBar } from "./UrlBar";
 
 function App() {
   const [resultText, setResultText] = useState("");
-  const [name, setName] = useState("");
-  const updateName = (e: any) => setName(e.target.value);
   const updateResultText = (result: string) => setResultText(result);
 
-  function sendGetRequest() {
-    Get(name).then(updateResultText);
+  function sendGetRequest(url: string) {
+    Get(url).then(updateResultText);
   }
 
   type EditorProps = {
@@ -30,29 +29,19 @@ function App() {
 
       <h3>Body</h3>
       <code>{props.body}</code>
+      <code>
+        {"{"}
+        <span>"ok"</span>
+        <span>:</span>
+        <span>true</span>
+        {"}"}
+      </code>
     </div>
   );
 
   return (
     <div id="App">
-      <div id="input" className="input-box">
-        <label>URI: </label>
-        <input
-          id="name"
-          className="input"
-          onChange={updateName}
-          autoComplete="off"
-          name="input"
-          type="text"
-        />
-        <button className="btn" onClick={sendGetRequest}>
-          GET
-        </button>
-        <button className="btn" onClick={sendGetRequest}>
-          POST
-        </button>
-      </div>
-
+      <UrlBar onSend={sendGetRequest} />
       <RequestBodyEditor text='{"ok": true}' />
       <ResponsePreview body={resultText} />
     </div>
