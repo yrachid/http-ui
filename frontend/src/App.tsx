@@ -29,13 +29,6 @@ function App() {
 
       <h3>Body</h3>
       <code>{props.body}</code>
-      <code>
-        {"{"}
-        <span>"ok"</span>
-        <span>:</span>
-        <span>true</span>
-        {"}"}
-      </code>
     </div>
   );
 

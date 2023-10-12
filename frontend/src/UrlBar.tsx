@@ -1,5 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Button from "@mui/joy/Button";
+import Input from "@mui/joy/Input";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
 
 export const Container = styled.div`
   padding: 10px;
@@ -9,63 +13,39 @@ export const Container = styled.div`
   font-family: monospace;
 `;
 
-export const Input = styled.input`
-  padding: 5px;
-  margin: 0px;
-  height: 20px;
-  width: 500px;
-  line-height: 30px;
-  border: 0px;
-  background-color: black;
-  color: white;
-  border: solid 1px red;
-  font-size: 12px;
-  font-family: monospace;
-`;
-
-export const SendButton = styled.button`
-  height: 32px;
-  width: 60px;
-  border: solid 1px red;
-  font-weight: bold;
-`;
-
-export const MethodSelector = styled.select`
-  height: 35px;
-`;
-
-export const CustomSelectorStyle = styled.div`
-  height: 30px;
-  width: 90px;
-  line-height: 30px;
-  border: solid 1px red;
-`;
-
-export const CustomSelector = (props: { options: string[] }) => {
-  return (
-    <CustomSelectorStyle>
-      {props.options.map((option) => (
-        <div>{option}</div>
-      ))}
-    </CustomSelectorStyle>
-  );
-};
-
 export type UrlBarProps = {
   onSend: (url: string) => void;
 };
 
 export const UrlBar = (props: UrlBarProps) => {
   const [url, setUrl] = useState("");
+  const [method, setMethod] = useState("GET");
   return (
     <Container>
-      <CustomSelector options={["OPTIONS"]} />
+      <Select
+        variant="plain"
+        value={method}
+        onChange={(_, value) => setMethod(value!)}
+        sx={{ width: "130px", borderRadius: "0px", fontFamily: "monospace" }}
+      >
+        <Option value="GET">GET</Option>
+        <Option value="POST">POST</Option>
+        <Option value="PUT">PUT</Option>
+        <Option value="DELETE">DELETE</Option>
+      </Select>
       <Input
         type={"url"}
         value={url}
         onChange={(e) => setUrl(e.target.value)}
+        sx={{ borderRadius: "0px", width: "400px", fontFamily: "monospace" }}
       />
-      <SendButton onClick={() => props.onSend(url)}>SEND</SendButton>
+      <Button
+        variant="solid"
+        sx={{ borderRadius: "0px" }}
+        onClick={() => props.onSend(url)}
+      >
+        SEND
+      </Button>
     </Container>
   );
 };
