@@ -2,7 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import { Get } from "../wailsjs/go/main/App";
 import { UrlBar } from "./UrlBar";
-import {RequestEditor} from "./RequestEditor";
+import { RequestEditor } from "./RequestEditor";
+import styled from "styled-components";
 
 function App() {
   const [resultText, setResultText] = useState("");
@@ -12,32 +13,22 @@ function App() {
     Get(url).then(updateResultText);
   }
 
-  type EditorProps = {
-    text: string;
-  };
-
-  const RequestBodyEditor = (props: EditorProps) => (
-    <div>
-      <h1>Request Body</h1>
-      <textarea>{props.text}</textarea>
-    </div>
-  );
-
   type ResponsePreviewProps = { body: string };
-  const ResponsePreview = (props: ResponsePreviewProps) => (
-    <div>
-      <h1>Response:</h1>
 
-      <h3>Body</h3>
+  const ResponsePreviewContainer = styled.div`
+    display: flex;
+  `;
+
+  const ResponsePreview = (props: ResponsePreviewProps) => (
+    <ResponsePreviewContainer>
       <code>{props.body}</code>
-    </div>
+    </ResponsePreviewContainer>
   );
 
   return (
     <div id="App">
       <UrlBar onSend={sendGetRequest} />
       <RequestEditor />
-      <RequestBodyEditor text='{"ok": true}' />
       <ResponsePreview body={resultText} />
     </div>
   );

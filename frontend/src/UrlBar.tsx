@@ -6,10 +6,7 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 
 export const Container = styled.div`
-  padding: 10px;
-  padding-bottom: 0px;
   display: flex;
-  font-family: monospace;
 `;
 
 export type UrlBarProps = {

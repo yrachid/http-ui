@@ -38,7 +38,6 @@ func (a *App) Get(url string) string {
   }
 
   return string(responseData)
-
 }
 
 // Greet returns a greeting for the given name
