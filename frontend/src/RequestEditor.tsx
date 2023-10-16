@@ -15,7 +15,10 @@ const JsonEditor = () => {
       </div>
       <div
         className="lines"
-        onKeyDown={(event) => updateLastKeyPressed(event.key)}
+        onKeyDown={(event) => {
+        event.preventDefault();
+          updateLastKeyPressed(event.key);
+        }}
         tabIndex={0}
       >
         <div className="line">{"{"}</div>
