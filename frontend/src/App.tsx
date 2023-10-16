@@ -6,22 +6,34 @@ import { RequestEditor } from "./RequestEditor";
 import styled from "styled-components";
 
 function App() {
-  const [resultText, setResultText] = useState("");
-  const updateResultText = (result: string) => setResultText(result);
+  type LastResponse =
+    | null
+    | { successful: true; body: string }
+    | { successful: false; error: string };
+  const [lastResponse, setLastResponse] = useState<LastResponse>(null);
 
   function sendGetRequest(url: string) {
-    Get(url).then(updateResultText);
+    Get(url)
+      .then((data) => {
+        setLastResponse({ successful: true, body: data });
+      })
+      .catch((err) => {
+        setLastResponse({ successful: false, error: err });
+      });
   }
-
-  type ResponsePreviewProps = { body: string };
 
   const ResponsePreviewContainer = styled.div`
     display: flex;
   `;
 
-  const ResponsePreview = (props: ResponsePreviewProps) => (
+  const ResponsePreview = (props: { lastResponse: LastResponse }) => (
     <ResponsePreviewContainer>
-      <code>{props.body}</code>
+      {props.lastResponse && props.lastResponse.successful && (
+        <code>{props.lastResponse.body}</code>
+      )}
+      {props.lastResponse && !props.lastResponse.successful && (
+        <code>{props?.lastResponse?.error}</code>
+      )}
     </ResponsePreviewContainer>
   );
 
@@ -29,7 +41,7 @@ function App() {
     <div id="App">
       <UrlBar onSend={sendGetRequest} />
       <RequestEditor />
-      <ResponsePreview body={resultText} />
+      <ResponsePreview lastResponse={lastResponse} />
     </div>
   );
 }

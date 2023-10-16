@@ -30,7 +30,7 @@ export const UrlBar = (props: UrlBarProps) => {
         <Option value="DELETE">DELETE</Option>
       </Select>
       <Input
-        type={"url"}
+        type="url"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         sx={{ borderRadius: "0px", width: "400px", fontFamily: "monospace" }}

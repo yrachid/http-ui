@@ -24,20 +24,21 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) Get(url string) string {
+func (a *App) Get(url string) (string, error) {
   response, err := http.Get(url)
 
   if err != nil {
-    log.Fatal(err)
+    return "", err
   }
 
   responseData, err:= ioutil.ReadAll(response.Body)
 
   if err != nil {
     log.Fatal(err)
+    return "", err
   }
 
-  return string(responseData)
+  return string(responseData), nil
 }
 
 // Greet returns a greeting for the given name
