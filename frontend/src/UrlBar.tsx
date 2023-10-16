@@ -16,6 +16,22 @@ export type UrlBarProps = {
 export const UrlBar = (props: UrlBarProps) => {
   const [url, setUrl] = useState("");
   const [method, setMethod] = useState("GET");
+
+  const handleSendClick = (): void => {
+    if (!url) {
+      return;
+    }
+
+    if (!url.includes("://")) {
+      const newUrl = `http://${url}`;
+      setUrl(newUrl);
+      props.onSend(newUrl);
+      return;
+    }
+
+    props.onSend(url);
+  };
+
   return (
     <Container>
       <Select
@@ -33,12 +49,14 @@ export const UrlBar = (props: UrlBarProps) => {
         type="url"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
+        placeholder="Enter URL"
+        autoComplete="off"
         sx={{ borderRadius: "0px", width: "400px", fontFamily: "monospace" }}
       />
       <Button
         variant="solid"
         sx={{ borderRadius: "0px" }}
-        onClick={() => props.onSend(url)}
+        onClick={handleSendClick}
       >
         SEND
       </Button>
