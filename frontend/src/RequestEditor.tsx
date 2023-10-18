@@ -19,7 +19,7 @@ const JsonEditor = () => {
         event.preventDefault();
           updateLastKeyPressed(event.key);
         }}
-        tabIndex={0}
+        tabIndex={1}
       >
         <div className="line">{"{"}</div>
         <div className="line">{lastKeyPressed}</div>

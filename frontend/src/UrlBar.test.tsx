@@ -1,10 +1,8 @@
-import { cleanup, render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 
 import { UrlBar } from "./UrlBar";
 
 import "@testing-library/jest-dom";
-
-afterEach(cleanup);
 
 describe("UrlBar", () => {
   it("Does not trigger a request if url is empty", async () => {
