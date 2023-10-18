@@ -10,7 +10,7 @@ describe("UrlBar", () => {
 
     render(<UrlBar onSend={sendCallback} />);
 
-    const sendButton = await screen.findByText("SEND");
+    const sendButton = await screen.findByText("Send");
 
     fireEvent.click(sendButton);
 
@@ -22,7 +22,7 @@ describe("UrlBar", () => {
     render(<UrlBar onSend={sendCallback} />);
 
     const urlInput = await screen.findByPlaceholderText("Enter URL");
-    const sendButton = await screen.findByText("SEND");
+    const sendButton = await screen.findByText("Send");
 
     fireEvent.change(urlInput, { target: { value: "http://localhost:3001" } });
     fireEvent.click(sendButton);
@@ -36,7 +36,7 @@ describe("UrlBar", () => {
     render(<UrlBar onSend={sendCallback} />);
 
     const urlInput = await screen.findByPlaceholderText("Enter URL");
-    const sendButton = await screen.findByText("SEND");
+    const sendButton = await screen.findByText("Send");
 
     fireEvent.change(urlInput, { target: { value: "localhost:3001" } });
     fireEvent.click(sendButton);

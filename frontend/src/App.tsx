@@ -5,7 +5,7 @@ import { UrlBar } from "./UrlBar";
 import { RequestEditor } from "./RequestEditor";
 import styled from "styled-components";
 import { StatusBar } from "./StatusBar";
-import { Alert, AlertsContext } from "./AlertsContext";
+import { Alert, AlertsContext, createAlertStore } from "./AlertsContext";
 
 type LastResponse =
   | null
@@ -15,6 +15,7 @@ type LastResponse =
 function App() {
   const [lastResponse, setLastResponse] = useState<LastResponse>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
+  const store = createAlertStore({ alerts, setAlerts });
 
   function sendGetRequest(url: string) {
     Get(url)
@@ -23,14 +24,7 @@ function App() {
       })
       .catch((err) => {
         setLastResponse({ successful: false, error: err });
-        setAlerts([
-          ...alerts,
-          {
-            id: 1,
-            type: "danger",
-            text: err,
-          },
-        ]);
+        store.insertDangerAlert(err);
       });
   }
 
@@ -48,11 +42,11 @@ function App() {
 
   return (
     <div id="App">
-      <AlertsContext.Provider value={alerts}>
+      <AlertsContext.Provider value={store}>
         <UrlBar onSend={sendGetRequest} />
         <RequestEditor />
         <ResponsePreview lastResponse={lastResponse} />
-        <StatusBar alerts={alerts}/>
+        <StatusBar />
       </AlertsContext.Provider>
     </div>
   );

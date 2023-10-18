@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
 import Alert from "@mui/joy/Alert";
-import { useEffect, useState } from "react";
-import { Alert as AlertData } from "./AlertsContext";
+import { useContext, useEffect, useState } from "react";
+import { AlertsContext } from "./AlertsContext";
+import ReportIcon from "@mui/icons-material/Report";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import IconButton from "@mui/joy/IconButton";
+import Typography from "@mui/joy/Typography";
 
 const StatusBarWrapper = styled.div`
   position: absolute;
@@ -46,19 +50,31 @@ const Clock = () => {
   return <div>{time.toString()}</div>;
 };
 
-type Status = {
-  alerts: AlertData[];
-}
+export const StatusBar = () => {
+  const store = useContext(AlertsContext);
 
-export const StatusBar = (props: Status) => {
-  console.log("hello");
-  console.log("alerts", JSON.stringify(props.alerts));
   return (
     <StatusBarWrapper>
       <AlertContainer>
-        {props.alerts.map((alert, index) => (
-          <Alert key={index} color={alert.type}>
-            {alert.text}
+        {store.alerts.map((alert) => (
+          <Alert
+            key={alert.id}
+            color={alert.type}
+            startDecorator={<ReportIcon />}
+            endDecorator={
+              <IconButton
+                variant="soft"
+                color={alert.type}
+                onClick={() => store.dismiss(alert.id)}
+              >
+                <CloseRoundedIcon />
+              </IconButton>
+            }
+          >
+            Error
+            <Typography level="body-sm" color={alert.type}>
+              {alert.text}
+            </Typography>
           </Alert>
         ))}
       </AlertContainer>
