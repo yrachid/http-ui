@@ -4,7 +4,8 @@ import { Get } from "../wailsjs/go/main/App";
 import { UrlBar } from "./UrlBar";
 import { RequestEditor } from "./RequestEditor";
 import styled from "styled-components";
-import { AlertProps, StatusBar } from "./StatusBar";
+import { StatusBar } from "./StatusBar";
+import { Alert, AlertsContext } from "./AlertsContext";
 
 type LastResponse =
   | null
@@ -13,6 +14,7 @@ type LastResponse =
 
 function App() {
   const [lastResponse, setLastResponse] = useState<LastResponse>(null);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
 
   function sendGetRequest(url: string) {
     Get(url)
@@ -21,6 +23,14 @@ function App() {
       })
       .catch((err) => {
         setLastResponse({ successful: false, error: err });
+        setAlerts([
+          ...alerts,
+          {
+            id: 1,
+            type: "danger",
+            text: err,
+          },
+        ]);
       });
   }
 
@@ -36,22 +46,14 @@ function App() {
     </ResponsePreviewContainer>
   );
 
-  const converLastResponseToAlerts = (): AlertProps[] =>
-    !lastResponse || lastResponse.successful
-      ? []
-      : [
-          {
-            type: "danger",
-            message: lastResponse.error,
-          },
-        ];
-
   return (
     <div id="App">
-      <UrlBar onSend={sendGetRequest} />
-      <RequestEditor />
-      <ResponsePreview lastResponse={lastResponse} />
-      <StatusBar alerts={converLastResponseToAlerts()} />
+      <AlertsContext.Provider value={alerts}>
+        <UrlBar onSend={sendGetRequest} />
+        <RequestEditor />
+        <ResponsePreview lastResponse={lastResponse} />
+        <StatusBar alerts={alerts}/>
+      </AlertsContext.Provider>
     </div>
   );
 }
