@@ -60,7 +60,7 @@ func TestGetProvidesErrorWhenResponseDataIsInvalid(t *testing.T) {
 		t.Errorf("Expected an error but got none")
 	}
 
-	if err.Error() != "unexpected EOF" {
+	if err.Error() != "Failed to read response body: unexpected EOF" {
 		t.Errorf("Unexpected error message: %s", err.Error())
 	}
 }

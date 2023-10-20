@@ -1,6 +1,8 @@
 package http
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -27,7 +29,8 @@ func (client *HttpClient) Get(request HttpRequest) (string, error) {
 	var responseBodyBytes, readError = io.ReadAll(response.Body)
 
 	if readError != nil {
-		return "", readError
+		msg := fmt.Sprintf("Failed to read response body: %s", readError.Error())
+		return "", errors.New(msg)
 	}
 
 	return string(responseBodyBytes), nil
