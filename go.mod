@@ -1,4 +1,4 @@
-module changeme
+module github.com/yrachid/http-ui
 
 go 1.18
 
