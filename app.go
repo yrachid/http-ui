@@ -2,46 +2,25 @@ package main
 
 import (
 	"context"
-	"fmt"
-  "net/http"
-  "io/ioutil"
-  "log"
+	"github.com/yrachid/http-ui/internal/http"
 )
 
 // App struct
 type App struct {
-	ctx context.Context
+	ctx    context.Context
+	client *client.HttpClient
 }
 
-// NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+	var client = client.NewHttpClient()
+	return &App{client: client}
 }
 
-// startup is called when the app starts. The context is saved
-// so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
 func (a *App) Get(url string) (string, error) {
-  response, err := http.Get(url)
-
-  if err != nil {
-    return "", err
-  }
-
-  responseData, err:= ioutil.ReadAll(response.Body)
-
-  if err != nil {
-    log.Fatal(err)
-    return "", err
-  }
-
-  return string(responseData), nil
-}
-
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+	response, err := a.client.Get(client.HttpRequest{Url: url})
+	return response, err
 }
