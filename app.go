@@ -5,14 +5,13 @@ import (
 	"github.com/yrachid/http-ui/internal/http"
 )
 
-// App struct
 type App struct {
 	ctx    context.Context
-	client *client.HttpClient
+	client *http.HttpClient
 }
 
 func NewApp() *App {
-	var client = client.NewHttpClient()
+	var client = http.NewHttpClient()
 	return &App{client: client}
 }
 
@@ -21,6 +20,6 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) Get(url string) (string, error) {
-	response, err := a.client.Get(client.HttpRequest{Url: url})
+	response, err := a.client.Get(http.HttpRequest{Url: url})
 	return response, err
 }
