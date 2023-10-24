@@ -50,9 +50,6 @@ export const UrlBar = (props: UrlBarProps) => {
           sx={{ fontFamily: "monospace" }}
         >
           <Option value="GET">GET</Option>
-          <Option value="POST">POST</Option>
-          <Option value="PUT">PUT</Option>
-          <Option value="DELETE">DELETE</Option>
         </Select>
       </Grid>
       <Grid xs={8}>

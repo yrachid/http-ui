@@ -2,43 +2,47 @@ import Tabs from "@mui/joy/Tabs";
 import Tab from "@mui/joy/Tab";
 import TabList from "@mui/joy/TabList";
 import { TabPanel } from "@mui/base";
+import Table from "@mui/joy/Table";
+import Grid from "@mui/joy/Grid";
 import "./json-editor.css";
-import { useState } from "react";
 
-const JsonEditor = () => {
-  const [lastKeyPressed, updateLastKeyPressed] = useState("");
+const Headers = () => {
   return (
-    <div className="editor">
-      <div className="gutter">
-        <div className="line-number">1</div>
-        <div className="line-number">2</div>
-      </div>
-      <div
-        className="lines"
-        onKeyDown={(event) => {
-        event.preventDefault();
-          updateLastKeyPressed(event.key);
-        }}
-        tabIndex={1}
-      >
-        <div className="line">{"{"}</div>
-        <div className="line">{lastKeyPressed}</div>
-      </div>
-    </div>
+    <Table stripe="odd" borderAxis="both">
+      <tbody>
+        <tr>
+          <td>Accept</td>
+          <td>application/json</td>
+        </tr>
+        <tr>
+          <td>Content-Type</td>
+          <td>application/json</td>
+        </tr>
+      </tbody>
+    </Table>
   );
 };
 
 export const RequestEditor = () => {
   return (
-    <Tabs defaultValue={0}>
-      <TabList>
-        <Tab>Body</Tab>
-        <Tab>Headers</Tab>
-      </TabList>
-      <TabPanel value={0}>
-        <JsonEditor />
-      </TabPanel>
-      <TabPanel value={1}>Headers</TabPanel>
-    </Tabs>
+    <Grid
+      container
+      spacing={0}
+      alignItems="center"
+      sx={{
+        padding: "10px",
+      }}
+    >
+      <Grid xs={11}>
+        <Tabs defaultValue={0}>
+          <TabList>
+            <Tab>Headers</Tab>
+          </TabList>
+          <TabPanel value={0}>
+            <Headers />
+          </TabPanel>
+        </Tabs>
+      </Grid>
+    </Grid>
   );
 };
