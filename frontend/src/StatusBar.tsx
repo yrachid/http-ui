@@ -39,15 +39,15 @@ const StatusContainer = styled.div`
 `;
 
 const Clock = () => {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState(new Date().toString());
 
   useEffect(() => {
     setInterval(() => {
-      setTime(new Date());
+      setTime(new Date().toString());
     }, 1000);
   }, [time]);
 
-  return <div>{time.toString()}</div>;
+  return <div>{time}</div>;
 };
 
 export const StatusBar = () => {
