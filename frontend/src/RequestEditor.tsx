@@ -6,9 +6,9 @@ import Table from "@mui/joy/Table";
 import Grid from "@mui/joy/Grid";
 import "./json-editor.css";
 
-const Headers = () => {
+export const HeaderEditor = () => {
   return (
-    <Table stripe="odd" borderAxis="both">
+    <Table stripe="odd" borderAxis="both" role="header-table-editor">
       <tbody>
         <tr>
           <td>Accept</td>
@@ -39,7 +39,7 @@ export const RequestEditor = () => {
             <Tab>Headers</Tab>
           </TabList>
           <TabPanel value={0}>
-            <Headers />
+            <HeaderEditor />
           </TabPanel>
         </Tabs>
       </Grid>
