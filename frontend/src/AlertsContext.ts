@@ -1,5 +1,4 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-import { v4 as uuid } from "uuid";
 
 export type AlertType = "success" | "warning" | "danger";
 
@@ -29,7 +28,7 @@ type AlertStoreProps = {
 export const createAlertStore = ({
   alerts,
   setAlerts,
-  uuidGenerator = uuid,
+  uuidGenerator = () => crypto.randomUUID(),
 }: AlertStoreProps): AlertStore => {
   const insert = (type: AlertType) => (text: string) =>
     setAlerts((currentAlerts: Alert[]) => [
@@ -43,12 +42,7 @@ export const createAlertStore = ({
     insertDangerAlert: insert("danger"),
     insertWarningAlert: insert("warning"),
     dismiss: (id: string) =>
-      setAlerts((currentAlerts) =>
-        currentAlerts.filter((a) => {
-          console.log(a.id, "!==", id);
-          return a.id !== id;
-        })
-      ),
+      setAlerts((currentAlerts) => currentAlerts.filter((a) => a.id !== id)),
     dismissAll: () => setAlerts(() => []),
   };
 };
