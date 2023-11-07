@@ -33,8 +33,8 @@ jobs:
 
       - name: Check if Wiremock is alive
         run: |
-          echo "$USER"
-          curl -vvv localhost:8080/__admin/mappings
+          netstat -ln | grep 8080
+          curl -vvv "http://localhost:8080/__admin/mappings"
 
       - name: Build and Test frontend
         run: |
