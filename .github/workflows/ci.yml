@@ -13,7 +13,7 @@ jobs:
         ports:
           - 8080:8080
         env:
-          uid: "$(id -u)"
+          uid: "${{ github.actor }}"
         volumes:
           - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
     steps:
