@@ -34,7 +34,7 @@ jobs:
       - name: Check if Wiremock is alive
         run: |
           echo "$USER"
-          curl wiremock:8080/__admin/mappings
+          curl localhost:8080/__admin/mappings
 
       - name: Build and Test frontend
         run: |
