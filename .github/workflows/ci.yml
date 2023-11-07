@@ -14,8 +14,8 @@ jobs:
           - 8080:8080
         env:
           uid: "runner"
-          volumes:
-            - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
+        volumes:
+          - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
     steps:
       - uses: actions/checkout@v3
 
