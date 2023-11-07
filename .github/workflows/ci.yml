@@ -17,16 +17,27 @@ jobs:
           cache: "npm"
           cache-dependency-path: "frontend/package-lock.json"
 
+      - name: "Use Go 1.21"
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21"
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
       - name: Build and Test frontend
         run: |
           npm --prefix frontend ci
           npm --prefix frontend run build
           npm --prefix frontend test
 
-      - name: "Use Go 1.21"
-        uses: actions/setup-go@v4
-        with:
-          go-version: "1.21"
-
       - name: Test Go backend
-        run: go test -v ./...
+        uses: williamhaw/setup-wiremock-action@v0.1.2
+        with:
+          http-port: "8080"
+          mappings: "./wiremock/setup/mappings"
+          files: "./wiremock/setup/__files"
+          command: "go test -v ./..."
