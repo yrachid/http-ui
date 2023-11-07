@@ -14,8 +14,8 @@ jobs:
           - 8080:8080
         env:
           uid: "${{ github.actor }}"
-        volumes:
-          - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
+            #   volumes:
+            #     - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
     steps:
       - uses: actions/checkout@v3
 
@@ -32,7 +32,9 @@ jobs:
           go-version: "1.21"
 
       - name: Check if Wiremock is alive
-        run: curl localhost:8080/__admin/mappings
+        run: |
+          echo "$USER"
+          curl localhost:8080/__admin/mappings
 
       - name: Build and Test frontend
         run: |
