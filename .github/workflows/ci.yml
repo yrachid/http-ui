@@ -12,6 +12,8 @@ jobs:
         image: wiremock/wiremock:3.2.0
         ports:
           - 8080:8080
+        env:
+          uid: "$(id -u)"
         volumes:
           - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
     steps:
