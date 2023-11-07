@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       wiremock:
-        image: wiremock:3.2.0
+        image: wiremock/wiremock:3.2.0
         ports:
           - 8080:8080
         volumes:
