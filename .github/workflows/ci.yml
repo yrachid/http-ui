@@ -13,7 +13,7 @@ jobs:
         ports:
           - 8080:8080
         volumes:
-          - "${PWD}/wiremock/setup:/home/wiremock"
+          - "${{ github.workspace }}/wiremock/setup:/home/wiremock"
     steps:
       - uses: actions/checkout@v3
 
