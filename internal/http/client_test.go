@@ -21,6 +21,10 @@ func TestGetProvidesResponseBodyAsString(t *testing.T) {
 	}
 }
 
+func TestFailureOutputInCiPipeline(t *testing.T) {
+  t.Errorf("Fails on purpose to see what happens in the CI pipeline")
+}
+
 func TestGetProvidesErrorWhenHostIsInvalid(t *testing.T) {
 	var request = HttpRequest{
 		Url: "http://site.invalid/success/text",
