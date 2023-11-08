@@ -12,8 +12,6 @@ jobs:
         image: wiremock/wiremock:3.2.0
         ports:
           - 8080:8080
-        env:
-          uid: "runner"
     steps:
       - uses: actions/checkout@v3
 
