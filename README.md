@@ -1,4 +1,6 @@
-# README
+# HTTP UI
+
+[![Http UI CI Pipeline](https://github.com/yrachid/http-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/yrachid/http-ui/actions/workflows/ci.yml)
 
 ## About
 
