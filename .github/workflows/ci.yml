@@ -31,7 +31,7 @@ jobs:
 
       - name: Check if Wiremock is alive
         run: |
-          for i in $(seq 1 20); do curl -vvv "http://localhost:8080/__admin/mappings"; sleep 1; done
+          sleep 15; curl -vvv "http://localhost:8080/__admin/mappings"
 
       - name: Build and Test frontend
         run: |
