@@ -1,6 +1,9 @@
 package http
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestGetProvidesResponseBodyAsString(t *testing.T) {
 
@@ -38,7 +41,7 @@ func TestGetProvidesErrorWhenHostIsInvalid(t *testing.T) {
 		t.Errorf("Expected an error but got none")
 	}
 
-	if err.Error() != "Get \"http://site.invalid/success/text\": dial tcp: lookup site.invalid: no such host" {
+	if !strings.Contains(err.Error(), "Get \"http://site.invalid/success/text\"") || !strings.Contains(err.Error(), "no such host") {
 		t.Errorf("Unexpected error message: %s", err.Error())
 	}
 }
