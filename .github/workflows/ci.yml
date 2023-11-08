@@ -32,6 +32,7 @@ jobs:
           CONTAINER_NAME=$(docker ps --format "{{.Names}}")
           docker cp ./wiremock/setup/. "${CONTAINER_NAME}:/home/wiremock"
           docker restart "${CONTAINER_NAME}"
+          sleep 2
           curl -vvv "http://localhost:8080/__admin/mappings"
 
       - name: Build and Test frontend
