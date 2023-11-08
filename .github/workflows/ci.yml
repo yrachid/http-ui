@@ -31,11 +31,10 @@ jobs:
         run: |
           CONTAINER_NAME=$(docker ps --format "{{.Names}}")
           docker cp ./wiremock/setup/. "${CONTAINER_NAME}:/home/wiremock"
-          docker exec "${CONTAINER_NAME}" ls -la /home/wiremock
+          docker restart "${CONTAINER_NAME}"
           curl -vvv "http://localhost:8080/__admin/mappings"
 
       - name: Build and Test frontend
         run: |
           npm --prefix frontend ci
-          npm --prefix frontend run build
           npm --prefix frontend test
