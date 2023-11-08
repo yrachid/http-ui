@@ -27,10 +27,12 @@ jobs:
         with:
           go-version: "1.21"
 
-      - name: Check if Wiremock is alive
+      - name: Prepare wiremock mappings
         run: |
-          docker ps
-          sleep 15; curl -vvv "http://localhost:8080/__admin/mappings"
+          CONTAINER_NAME=$(docker ps --format "{{.Names}}")
+          docker cp ./wiremock/setup/. "${CONTAINER_NAME}:/home/wiremock"
+          docker exec "${CONTAINER_NAME}" ls -la /home/wiremock
+          curl -vvv "http://localhost:8080/__admin/mappings"
 
       - name: Build and Test frontend
         run: |
