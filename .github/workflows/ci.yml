@@ -37,8 +37,8 @@ jobs:
 
       - name: Test frontend
         run: |
-          npm --prefix frontend run build
           npm --prefix frontend ci
+          npm --prefix frontend run build
           npm --prefix frontend test
 
       - name: Test Go backend
