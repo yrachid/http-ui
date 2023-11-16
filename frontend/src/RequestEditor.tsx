@@ -63,19 +63,16 @@ const HeaderRow = ({ name, value }: Record<string, string>) => {
     <Grid container>
       <Grid xs={6}>
         <Input
-          role="header-name"
           sx={{ borderRadius: "0px", fontFamily: "monospace" }}
           value={name}
         />
       </Grid>
       <Grid xs={6}>
         <Input
-          role="header-value"
           sx={{ borderRadius: "0px", fontFamily: "monospace" }}
           value={value}
           endDecorator={
             <Button
-              role="remove-header"
               sx={{ borderRadius: "0px", fontFamily: "monospace" }}
               onClick={() =>
                 dispatch({

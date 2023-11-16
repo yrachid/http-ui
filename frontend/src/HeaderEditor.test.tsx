@@ -1,11 +1,11 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { HeaderEditor } from "./RequestEditor";
 import { act } from "react-dom/test-utils";
 import { RequestContextProvider } from "./RequestContext";
 
-const type = (input: HTMLElement, intendedText: string) =>
+const type = (intendedText: string) => (input: HTMLElement) =>
   fireEvent.change(input, { target: { value: intendedText } });
 
 describe("HeaderEditor", () => {
@@ -19,22 +19,18 @@ describe("HeaderEditor", () => {
     );
 
     await act(async () => {
-      const headerNameInput = await screen.findByPlaceholderText("Name");
-      const headerValueInput = await screen.findByPlaceholderText("Value");
+      await screen.findByPlaceholderText("Name").then(type("Content-Type"));
+      await screen
+        .findByPlaceholderText("Value")
+        .then(type("application/json"));
 
       const insertHeaderButton = await screen.findByRole("set-header");
-
-      type(headerNameInput, "Content-Type");
-      type(headerValueInput, "application/json");
 
       fireEvent.click(insertHeaderButton);
     });
 
-    const insertedHeaderName = await screen.findByRole("header-name");
-    const insertedHeaderValue = await screen.findByRole("header-value");
-
-    expect(insertedHeaderName).toHaveValue("Content-Type");
-    expect(insertedHeaderValue).toHaveValue("application/json");
+    expect(screen.queryByDisplayValue("Content-Type")).toBeInTheDocument();
+    expect(screen.queryByDisplayValue("application/json")).toBeInTheDocument();
   });
 
   it("Removes a header from the request", async () => {
@@ -53,12 +49,19 @@ describe("HeaderEditor", () => {
       )
     );
 
-    const headerName = await screen.findByRole("header-name");
-    const headerValue = await screen.findByRole("header-value");
+    const headerName = screen.queryByDisplayValue("Accept");
+    const headerValue = screen.queryByDisplayValue("application/json");
 
-    console.log(headerName.nodeValue);
+    const removeHeaderButton = await screen.findByText("-");
 
-    expect(headerName).toHaveValue("Content-Type");
-    expect(headerValue).toHaveValue("application/json");
+    expect(headerName).toBeInTheDocument();
+    expect(headerValue).toBeInTheDocument();
+
+    await act(() => fireEvent.click(removeHeaderButton));
+
+    expect(screen.queryByDisplayValue("Accept")).not.toBeInTheDocument();
+    expect(
+      screen.queryByDisplayValue("application/json")
+    ).not.toBeInTheDocument();
   });
 });
