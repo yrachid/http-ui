@@ -49,8 +49,9 @@ type HttpRequest = {
   headers: Record<string, string>;
 };
 
-type Props = {
+type ContextProviderProps = {
   children: ReactNode;
+  initialRequest?: HttpRequest;
 };
 
 export const RequestContext = createContext<HttpRequest>(null!);
@@ -61,11 +62,19 @@ export const RequestDispatchContext = createContext<Dispatch<RequestReduction>>(
 export const useRequest = () => useContext(RequestContext);
 export const useRequestDispatch = () => useContext(RequestDispatchContext);
 
-export const RequestContextProvider = ({ children }: Props) => {
-  const [request, dispatch] = useReducer(reducer, {
-    url: "",
-    headers: {},
-  });
+const DEFAULT_INITIAL_REQUEST = {
+  url: "",
+  headers: {},
+};
+
+export const RequestContextProvider = ({
+  children,
+  initialRequest,
+}: ContextProviderProps) => {
+  const [request, dispatch] = useReducer(
+    reducer,
+    initialRequest ?? DEFAULT_INITIAL_REQUEST
+  );
 
   return (
     <RequestContext.Provider value={request}>

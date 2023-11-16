@@ -19,12 +19,10 @@ describe("HeaderEditor", () => {
     );
 
     await act(async () => {
-      const headerNameInput = await screen.findByPlaceholderText("Header name");
-      const headerValueInput = await screen.findByPlaceholderText(
-        "Header value"
-      );
+      const headerNameInput = await screen.findByPlaceholderText("Name");
+      const headerValueInput = await screen.findByPlaceholderText("Value");
 
-      const insertHeaderButton = await screen.findByRole("insert-header");
+      const insertHeaderButton = await screen.findByRole("set-header");
 
       type(headerNameInput, "Content-Type");
       type(headerValueInput, "application/json");
@@ -32,12 +30,35 @@ describe("HeaderEditor", () => {
       fireEvent.click(insertHeaderButton);
     });
 
-    const insertedHeaderName = await screen.findByRole("inserted-header-name");
-    const insertedHeaderValue = await screen.findByRole(
-      "inserted-header-value"
+    const insertedHeaderName = await screen.findByRole("header-name");
+    const insertedHeaderValue = await screen.findByRole("header-value");
+
+    expect(insertedHeaderName).toHaveValue("Content-Type");
+    expect(insertedHeaderValue).toHaveValue("application/json");
+  });
+
+  it("Removes a header from the request", async () => {
+    const initialRequest = {
+      url: "http://localhost:3001",
+      headers: {
+        Accept: "application/json",
+      },
+    };
+
+    await act(() =>
+      render(
+        <RequestContextProvider initialRequest={initialRequest}>
+          <HeaderEditor />
+        </RequestContextProvider>
+      )
     );
 
-    expect(insertedHeaderName).toHaveTextContent("Content-Type");
-    expect(insertedHeaderValue).toHaveTextContent("application/json");
+    const headerName = await screen.findByRole("header-name");
+    const headerValue = await screen.findByRole("header-value");
+
+    console.log(headerName.nodeValue);
+
+    expect(headerName).toHaveValue("Content-Type");
+    expect(headerValue).toHaveValue("application/json");
   });
 });

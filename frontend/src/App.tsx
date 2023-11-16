@@ -6,9 +6,7 @@ import { RequestEditor } from "./RequestEditor";
 import styled from "styled-components";
 import { StatusBar } from "./StatusBar";
 import { Alert, AlertsContext, createAlertStore } from "./AlertsContext";
-import {
-  RequestContextProvider,
-} from "./RequestContext";
+import { RequestContextProvider } from "./RequestContext";
 
 type LastResponse =
   | null

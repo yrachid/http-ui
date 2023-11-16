@@ -2,29 +2,25 @@ import Tabs from "@mui/joy/Tabs";
 import Tab from "@mui/joy/Tab";
 import TabList from "@mui/joy/TabList";
 import { TabPanel } from "@mui/base";
-import Table from "@mui/joy/Table";
 import Grid from "@mui/joy/Grid";
 import Input from "@mui/joy/Input";
 import "./json-editor.css";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Button } from "@mui/joy";
 import { useRequest, useRequestDispatch } from "./RequestContext";
 
-type InserterProps = {
-  onInsert: (name: string, value: string) => void;
-};
-
-const HeaderInserter = (props: InserterProps) => {
+const HeaderInserter = () => {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
+  const dispatch = useRequestDispatch();
 
   return (
     <Grid container>
       <Grid xs={6}>
         <Input
           sx={{ borderRadius: "0px", fontFamily: "monospace" }}
-          role="header-name-inserter"
-          placeholder="Header name"
+          role="header-name-setter"
+          placeholder="Name"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
@@ -32,14 +28,25 @@ const HeaderInserter = (props: InserterProps) => {
       <Grid xs={6}>
         <Input
           sx={{ borderRadius: "0px", fontFamily: "monospace" }}
-          role="header-value-inserter"
-          placeholder="Header value"
+          role="header-value-setter"
+          placeholder="Value"
           onChange={(event) => setValue(event.target.value)}
           value={value}
           endDecorator={
             <Button
-              role="insert-header"
-              onClick={() => props.onInsert(name, value)}
+              role="set-header"
+              sx={{ borderRadius: "0px", fontFamily: "monospace" }}
+              disabled={name === "" || value === ""}
+              onClick={() => {
+                dispatch({
+                  type: "set_header",
+                  header: {
+                    [name]: value,
+                  },
+                });
+                setName("");
+                setValue("");
+              }}
             >
               +
             </Button>
@@ -50,35 +57,53 @@ const HeaderInserter = (props: InserterProps) => {
   );
 };
 
+const HeaderRow = ({ name, value }: Record<string, string>) => {
+  const dispatch = useRequestDispatch();
+  return (
+    <Grid container>
+      <Grid xs={6}>
+        <Input
+          role="header-name"
+          sx={{ borderRadius: "0px", fontFamily: "monospace" }}
+          value={name}
+        />
+      </Grid>
+      <Grid xs={6}>
+        <Input
+          role="header-value"
+          sx={{ borderRadius: "0px", fontFamily: "monospace" }}
+          value={value}
+          endDecorator={
+            <Button
+              role="remove-header"
+              sx={{ borderRadius: "0px", fontFamily: "monospace" }}
+              onClick={() =>
+                dispatch({
+                  type: "remove_header",
+                  name,
+                })
+              }
+            >
+              -
+            </Button>
+          }
+        />
+      </Grid>
+    </Grid>
+  );
+};
+
 export const HeaderEditor = () => {
   const request = useRequest();
-  const dispatch = useRequestDispatch();
 
   return (
     <>
-      <HeaderInserter
-        onInsert={(name, value) =>
-          dispatch({
-            type: "set_header",
-            header: { [name]: value },
-          })
-        }
-      />
-      <Table stripe="odd" borderAxis="both" role="header-table-editor">
-        <tbody>
-          {Object.keys(request.headers).map((headerName, id) => (
-            <tr role="inserted-header" key={id}>
-              <td role="inserted-header-name">{headerName}</td>
-              <td role="inserted-header-value">
-                {request.headers[headerName]}
-              </td>
-              <td>
-                <Button>-</Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <HeaderInserter />
+      {Object.keys(request.headers).map((headerName, id) => (
+        <Fragment key={id}>
+          <HeaderRow name={headerName} value={request.headers[headerName]} />
+        </Fragment>
+      ))}
     </>
   );
 };
