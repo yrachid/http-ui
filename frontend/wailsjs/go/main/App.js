@@ -5,3 +5,7 @@
 export function Get(arg1) {
   return window['go']['main']['App']['Get'](arg1);
 }
+
+export function GetWithHeaders(arg1) {
+  return window['go']['main']['App']['GetWithHeaders'](arg1);
+}

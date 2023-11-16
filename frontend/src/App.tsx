@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { Get } from "../wailsjs/go/main/App";
+import { Get, GetWithHeaders } from "../wailsjs/go/main/App";
 import { UrlBar } from "./UrlBar";
 import { RequestEditor } from "./RequestEditor";
 import styled from "styled-components";
@@ -31,6 +31,13 @@ function App() {
   const store = createAlertStore({ alerts, setAlerts });
 
   function sendGetRequest(url: string) {
+    GetWithHeaders({
+      url: "http://some-url.com",
+      headers: {
+        "Accept": "text/xml"
+      }
+    });
+
     Get(url)
       .then((data) => {
         setLastResponse({ successful: true, body: data });
