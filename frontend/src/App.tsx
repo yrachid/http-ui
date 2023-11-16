@@ -6,11 +6,26 @@ import { RequestEditor } from "./RequestEditor";
 import styled from "styled-components";
 import { StatusBar } from "./StatusBar";
 import { Alert, AlertsContext, createAlertStore } from "./AlertsContext";
+import {
+  RequestContextProvider,
+} from "./RequestContext";
 
 type LastResponse =
   | null
   | { successful: true; body: string }
   | { successful: false; error: string };
+
+const ResponsePreview = (props: { lastResponse: LastResponse }) => (
+  <ResponsePreviewContainer>
+    {props.lastResponse && props.lastResponse.successful && (
+      <code>{props.lastResponse.body}</code>
+    )}
+  </ResponsePreviewContainer>
+);
+
+const ResponsePreviewContainer = styled.div`
+  display: flex;
+`;
 
 function App() {
   const [lastResponse, setLastResponse] = useState<LastResponse>(null);
@@ -28,24 +43,14 @@ function App() {
       });
   }
 
-  const ResponsePreviewContainer = styled.div`
-    display: flex;
-  `;
-
-  const ResponsePreview = (props: { lastResponse: LastResponse }) => (
-    <ResponsePreviewContainer>
-      {props.lastResponse && props.lastResponse.successful && (
-        <code>{props.lastResponse.body}</code>
-      )}
-    </ResponsePreviewContainer>
-  );
-
   return (
     <div id="App">
       <AlertsContext.Provider value={store}>
-        <UrlBar onSend={sendGetRequest} />
-        <RequestEditor />
-        <ResponsePreview lastResponse={lastResponse} />
+        <RequestContextProvider>
+          <UrlBar onSend={sendGetRequest} />
+          <RequestEditor />
+          <ResponsePreview lastResponse={lastResponse} />
+        </RequestContextProvider>
         <StatusBar />
       </AlertsContext.Provider>
     </div>

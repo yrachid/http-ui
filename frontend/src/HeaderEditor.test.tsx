@@ -3,13 +3,20 @@ import "@testing-library/jest-dom";
 
 import { HeaderEditor } from "./RequestEditor";
 import { act } from "react-dom/test-utils";
+import { RequestContextProvider } from "./RequestContext";
 
 const type = (input: HTMLElement, intendedText: string) =>
   fireEvent.change(input, { target: { value: intendedText } });
 
 describe("HeaderEditor", () => {
   it("Inserts a new header on the header list", async () => {
-    await act(() => render(<HeaderEditor />));
+    await act(() =>
+      render(
+        <RequestContextProvider>
+          <HeaderEditor />
+        </RequestContextProvider>
+      )
+    );
 
     await act(async () => {
       const headerNameInput = await screen.findByPlaceholderText("Header name");

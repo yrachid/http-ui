@@ -8,8 +8,7 @@ import Input from "@mui/joy/Input";
 import "./json-editor.css";
 import { useState } from "react";
 import { Button } from "@mui/joy";
-
-type HttpHeaders = Record<string, string>;
+import { useRequest, useRequestDispatch } from "./RequestContext";
 
 type InserterProps = {
   onInsert: (name: string, value: string) => void;
@@ -52,24 +51,27 @@ const HeaderInserter = (props: InserterProps) => {
 };
 
 export const HeaderEditor = () => {
-  const [headers, setHeaders] = useState<HttpHeaders>({});
+  const request = useRequest();
+  const dispatch = useRequestDispatch();
 
   return (
     <>
       <HeaderInserter
         onInsert={(name, value) =>
-          setHeaders({
-            ...headers,
-            ...{ [name]: value },
+          dispatch({
+            type: "set_header",
+            header: { [name]: value },
           })
         }
       />
       <Table stripe="odd" borderAxis="both" role="header-table-editor">
         <tbody>
-          {Object.keys(headers).map((headerName, id) => (
+          {Object.keys(request.headers).map((headerName, id) => (
             <tr role="inserted-header" key={id}>
               <td role="inserted-header-name">{headerName}</td>
-              <td role="inserted-header-value">{headers[headerName]}</td>
+              <td role="inserted-header-value">
+                {request.headers[headerName]}
+              </td>
               <td>
                 <Button>-</Button>
               </td>

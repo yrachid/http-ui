@@ -2,6 +2,7 @@ import {
   createContext,
   Dispatch,
   ReactElement,
+  ReactNode,
   useContext,
   useReducer,
 } from "react";
@@ -36,7 +37,7 @@ type HttpRequest = {
 };
 
 type Props = {
-  children: ReactElement[];
+  children: ReactNode;
 };
 
 export const RequestContext = createContext<HttpRequest>(null!);
@@ -47,7 +48,7 @@ export const RequestDispatchContext = createContext<Dispatch<RequestReduction>>(
 export const useRequest = () => useContext(RequestContext);
 export const useRequestDispatch = () => useContext(RequestDispatchContext);
 
-export const RequestContextProvider = (props: Props) => {
+export const RequestContextProvider = ({ children }: Props) => {
   const [request, dispatch] = useReducer(reducer, {
     url: "",
     headers: {},
@@ -56,7 +57,7 @@ export const RequestContextProvider = (props: Props) => {
   return (
     <RequestContext.Provider value={request}>
       <RequestDispatchContext.Provider value={dispatch}>
-        {...props.children}
+        {children}
       </RequestDispatchContext.Provider>
     </RequestContext.Provider>
   );
