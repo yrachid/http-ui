@@ -47,4 +47,14 @@ describe("RequestContextReducer", () => {
       "Content-Type": "text/xml",
     });
   });
+
+  it("removes a header from the request", () => {
+    const updatedRequest = reducer(request, {
+      type: "remove_header",
+      name: "Content-Type",
+    });
+
+    expect(updatedRequest.url).toEqual("http://localhost:3000");
+    expect(Object.keys(updatedRequest.headers)).toEqual([]);
+  });
 });

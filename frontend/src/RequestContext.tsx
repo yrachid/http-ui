@@ -1,7 +1,6 @@
 import {
   createContext,
   Dispatch,
-  ReactElement,
   ReactNode,
   useContext,
   useReducer,
@@ -9,7 +8,16 @@ import {
 
 type RequestReduction =
   | { type: "update_url"; newUrl: string }
-  | { type: "set_header"; header: Record<string, string> };
+  | { type: "set_header"; header: Record<string, string> }
+  | { type: "remove_header"; name: string };
+
+const removeHeader = (
+  headers: Record<string, string>,
+  headerToRemove: string
+) => {
+  const { [headerToRemove]: _, ...restOfHeaders } = headers;
+  return restOfHeaders;
+};
 
 export const reducer = (
   currentState: HttpRequest,
@@ -25,6 +33,11 @@ export const reducer = (
           ...currentState.headers,
           ...action.header,
         },
+      };
+    case "remove_header":
+      return {
+        ...currentState,
+        headers: removeHeader(currentState.headers, action.name),
       };
     default:
       return currentState;
