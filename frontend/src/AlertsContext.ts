@@ -25,6 +25,7 @@ type AlertStoreProps = {
   uuidGenerator?: () => string;
 };
 
+// TODO: Perhaps this wrapper should become a reducer.
 export const createAlertStore = ({
   alerts,
   setAlerts,
