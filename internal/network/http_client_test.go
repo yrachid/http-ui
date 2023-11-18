@@ -6,7 +6,6 @@ import (
 )
 
 func TestGetProvidesResponseBodyAsString(t *testing.T) {
-
 	var request = HttpRequest{
 		Url: "http://localhost:8080/success/text",
 	}
@@ -21,6 +20,27 @@ func TestGetProvidesResponseBodyAsString(t *testing.T) {
 
 	if response != "Hello, world!" {
 		t.Errorf("Expected response body to be 'Hello, world!' but got '%s'", response)
+	}
+}
+
+func TestGetSpecifiesCustomHeaders(t *testing.T) {
+	request := HttpRequest{
+		Url: "http://localhost:8080/success/text/custom-headers",
+		Headers: map[string]string{
+			"Content-Type": "application/json; charset=UTF-8",
+		},
+	}
+
+	client := NewHttpClient()
+
+	response, err := client.Get(request)
+
+	if err != nil {
+		t.Errorf("Expected a successful but got error: %s", err.Error())
+	}
+
+	if response != "Headers Received" {
+		t.Errorf("Expected response body to be 'Headers Received' but got '%s'", response)
 	}
 }
 

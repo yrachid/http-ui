@@ -7,11 +7,6 @@ import (
 	"net/http"
 )
 
-type HttpRequest struct {
-	Url         string
-	RequestBody string
-}
-
 type HttpClient struct {
 }
 
@@ -20,7 +15,13 @@ func NewHttpClient() *HttpClient {
 }
 
 func (client *HttpClient) Get(request HttpRequest) (string, error) {
-	response, err := http.Get(request.Url)
+	var convertedReq, requestConversionError = request.ToGoRequest()
+
+	if requestConversionError != nil {
+		return "", requestConversionError
+	}
+
+	response, err := http.DefaultClient.Do(convertedReq)
 
 	if err != nil {
 		return "", err

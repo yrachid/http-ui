@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/success/text/custom-headers",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json; charset=UTF-8"
+      }
+    }
+  },
+
+  "response": {
+    "status": 200,
+    "body": "Headers Received",
+    "headers": {
+        "Content-Type": "text/plain"
+    }
+  }
+}

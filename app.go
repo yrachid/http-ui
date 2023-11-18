@@ -20,20 +20,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-type HttpRequest struct {
-	Url     string
-	Headers map[string]string
-}
-
-func (request *HttpRequest) PrettyPrintIGuess() {
-	fmt.Printf("Url: %s\n", request.Url)
-	fmt.Printf("Headers \n")
-	for k, v := range request.Headers {
-		fmt.Printf("K: [%s]; V: [%s]\n", k, v)
-	}
-}
-
-func (a *App) GetWithHeaders(request HttpRequest) string {
+func (a *App) GetWithHeaders(request network.HttpRequest) string {
 	fmt.Println(">>>>>>>>>>>>>>>>>>>")
 	request.PrettyPrintIGuess()
 	fmt.Println(">>>>>>>>>>>>>>>>>>>")
