@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import { Get, GetWithHeaders } from "../wailsjs/go/main/App";
 import { AlertsContext } from "./AlertsContext";
+import http from "./network/http";
+import { useRequest, useRequestDispatch } from "./RequestContext";
 import { RequestEditor } from "./RequestEditor";
 import { UrlBar } from "./UrlBar";
 
@@ -25,17 +26,25 @@ const ResponsePreview = (props: { lastResponse: LastResponse }) => (
 export const RequestPage = () => {
   const [lastResponse, setLastResponse] = useState<LastResponse>(null);
   const store = useContext(AlertsContext);
+  const request = useRequest();
+  const dispatch = useRequestDispatch();
 
-  function sendGetRequest(url: string) {
-    GetWithHeaders({
-      url: "http://some-url.com",
-      headers: {
-        Accept: "text/xml",
-      },
-    });
+  // TODO: Move this out, add tests
+  function sendGetRequest() {
+    const normalisedUrl = request.url.includes("://")
+      ? request.url
+      : `http://${request.url}`;
 
-    Get(url)
+    http
+      .get({
+        ...request,
+        url: normalisedUrl,
+      })
       .then((data) => {
+        dispatch({
+          type: "update_url",
+          newUrl: normalisedUrl,
+        });
         setLastResponse({ successful: true, body: data });
       })
       .catch((err) => {

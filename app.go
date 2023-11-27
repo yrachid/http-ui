@@ -20,11 +20,13 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) GetWithHeaders(request network.HttpRequest) string {
+func (a *App) GetWithHeaders(request network.HttpRequest) (string, error) {
 	fmt.Println(">>>>>>>>>>>>>>>>>>>")
 	request.PrettyPrintIGuess()
 	fmt.Println(">>>>>>>>>>>>>>>>>>>")
-	return "ok"
+
+	response, err := a.client.Get(request)
+	return response, err
 }
 
 func (a *App) Get(url string) (string, error) {

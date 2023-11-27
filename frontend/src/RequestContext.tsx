@@ -6,7 +6,7 @@ import {
   useReducer,
 } from "react";
 
-type RequestReduction =
+export type RequestReduction =
   | { type: "update_url"; newUrl: string }
   | { type: "set_header"; header: Record<string, string> }
   | { type: "remove_header"; name: string };
@@ -44,7 +44,7 @@ export const reducer = (
   }
 };
 
-type HttpRequest = {
+export type HttpRequest = {
   url: string;
   headers: Record<string, string>;
 };

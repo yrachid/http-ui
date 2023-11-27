@@ -5,32 +5,28 @@ import Input from "@mui/joy/Input";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Grid from "@mui/joy/Grid";
+import { useRequest, useRequestDispatch } from "./RequestContext";
 
 export const Container = styled.div`
   display: flex;
 `;
 
 export type UrlBarProps = {
-  onSend: (url: string) => void;
+  onSend: () => void;
 };
 
 export const UrlBar = (props: UrlBarProps) => {
-  const [url, setUrl] = useState("");
+  const request = useRequest();
+  const dispatch = useRequestDispatch();
+
   const [method, setMethod] = useState("GET");
 
   const handleSendClick = (): void => {
-    if (!url) {
+    if (!request.url) {
       return;
     }
 
-    if (!url.includes("://")) {
-      const newUrl = `http://${url}`;
-      setUrl(newUrl);
-      props.onSend(newUrl);
-      return;
-    }
-
-    props.onSend(url);
+    props.onSend();
   };
 
   return (
@@ -55,8 +51,13 @@ export const UrlBar = (props: UrlBarProps) => {
       <Grid xs={8}>
         <Input
           type="url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          value={request.url}
+          onChange={(e) =>
+            dispatch({
+              type: "update_url",
+              newUrl: e.target.value,
+            })
+          }
           placeholder="Enter URL"
           autoComplete="off"
           sx={{ borderRadius: "0px", fontFamily: "monospace" }}
