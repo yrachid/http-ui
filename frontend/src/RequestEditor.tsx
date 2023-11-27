@@ -4,7 +4,6 @@ import TabList from "@mui/joy/TabList";
 import { TabPanel } from "@mui/base";
 import Grid from "@mui/joy/Grid";
 import Input from "@mui/joy/Input";
-import "./json-editor.css";
 import { Fragment, useState } from "react";
 import { Button } from "@mui/joy";
 import { useRequest, useRequestDispatch } from "./RequestContext";
