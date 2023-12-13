@@ -14,25 +14,29 @@ func NewHttpClient() *HttpClient {
 	return &HttpClient{}
 }
 
-func (client *HttpClient) Get(request HttpRequest) (string, error) {
+func (client *HttpClient) Get(request HttpRequest) (*HttpResponse, error) {
 	var convertedReq, requestConversionError = request.ToGoRequest()
 
 	if requestConversionError != nil {
-		return "", requestConversionError
+		return nil, requestConversionError
 	}
 
 	response, err := http.DefaultClient.Do(convertedReq)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	var responseBodyBytes, readError = io.ReadAll(response.Body)
 
 	if readError != nil {
 		msg := fmt.Sprintf("Failed to read response body: %s", readError.Error())
-		return "", errors.New(msg)
+		return nil, errors.New(msg)
 	}
 
-	return string(responseBodyBytes), nil
+	var res = &HttpResponse{
+		Body: string(responseBodyBytes),
+	}
+
+	return res, nil
 }

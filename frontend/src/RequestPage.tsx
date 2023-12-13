@@ -45,7 +45,8 @@ export const RequestPage = () => {
           type: "update_url",
           newUrl: normalisedUrl,
         });
-        setLastResponse({ successful: true, body: data });
+        console.debug("Received response from Go client", data)
+        setLastResponse({ successful: true, body: data.Body });
       })
       .catch((err) => {
         setLastResponse({ successful: false, error: err });

@@ -3,7 +3,7 @@ package network
 import (
 	"fmt"
 	"net/http"
-  "net/url"
+	"net/url"
 )
 
 type HttpRequest struct {
@@ -20,23 +20,23 @@ func (request *HttpRequest) PrettyPrintIGuess() {
 }
 
 func (request HttpRequest) String() string {
-  return fmt.Sprintf("Url=%v, Headers=%v", request.Url, request.Headers)
+	return fmt.Sprintf("Url=%v, Headers=%v", request.Url, request.Headers)
 }
 
 func (request *HttpRequest) ToGoRequest() (*http.Request, error) {
-  parsedUrl, err := url.ParseRequestURI(request.Url)
-  if err != nil{
-    return nil, err
-  }
+	parsedUrl, err := url.ParseRequestURI(request.Url)
+	if err != nil {
+		return nil, err
+	}
 
-  var mappedHeaders = make(map[string][]string, len(request.Headers))
+	var mappedHeaders = make(map[string][]string, len(request.Headers))
 
-  for k, v := range request.Headers {
-    mappedHeaders[k] = []string{v}
-  }
+	for k, v := range request.Headers {
+		mappedHeaders[k] = []string{v}
+	}
 
-  return &http.Request{
-    URL: parsedUrl,
-    Header: mappedHeaders,
-  }, nil
+	return &http.Request{
+		URL:    parsedUrl,
+		Header: mappedHeaders,
+	}, nil
 }

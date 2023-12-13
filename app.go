@@ -20,7 +20,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) GetWithHeaders(request network.HttpRequest) (string, error) {
+func (a *App) GetWithHeaders(request network.HttpRequest) (*network.HttpResponse, error) {
 	fmt.Println(">>>>>>>>>>>>>>>>>>>")
 	request.PrettyPrintIGuess()
 	fmt.Println(">>>>>>>>>>>>>>>>>>>")

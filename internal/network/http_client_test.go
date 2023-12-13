@@ -18,7 +18,7 @@ func TestGetProvidesResponseBodyAsString(t *testing.T) {
 		t.Errorf("Expected a successful but got error: %s", err.Error())
 	}
 
-	if response != "Hello, world!" {
+	if response.Body != "Hello, world!" {
 		t.Errorf("Expected response body to be 'Hello, world!' but got '%s'", response)
 	}
 }
@@ -39,7 +39,7 @@ func TestGetSpecifiesCustomHeaders(t *testing.T) {
 		t.Errorf("Expected a successful but got error: %s", err.Error())
 	}
 
-	if response != "Headers Received" {
+	if response.Body != "Headers Received" {
 		t.Errorf("Expected response body to be 'Headers Received' but got '%s'", response)
 	}
 }
@@ -51,11 +51,7 @@ func TestGetProvidesErrorWhenHostIsInvalid(t *testing.T) {
 
 	var client = NewHttpClient()
 
-	response, err := client.Get(request)
-
-	if response != "" {
-		t.Errorf("Expected response body to be empty but got '%s'", response)
-	}
+	_, err := client.Get(request)
 
 	if err == nil {
 		t.Errorf("Expected an error but got none")
@@ -73,11 +69,7 @@ func TestGetProvidesErrorWhenResponseDataIsInvalid(t *testing.T) {
 
 	var client = NewHttpClient()
 
-	response, err := client.Get(request)
-
-	if response != "" {
-		t.Errorf("Expected response body to be empty but got '%s'", response)
-	}
+	_, err := client.Get(request)
 
 	if err == nil {
 		t.Errorf("Expected an error but got none")
