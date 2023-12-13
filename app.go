@@ -28,8 +28,3 @@ func (a *App) GetWithHeaders(request network.HttpRequest) (string, error) {
 	response, err := a.client.Get(request)
 	return response, err
 }
-
-func (a *App) Get(url string) (string, error) {
-	response, err := a.client.Get(network.HttpRequest{Url: url})
-	return response, err
-}
