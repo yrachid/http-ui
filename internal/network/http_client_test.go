@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestGetProvidesResponseBodyAsString(t *testing.T) {
+func TestGetProvidesResponseBodyAsStringAndStatusCode(t *testing.T) {
 	var request = HttpRequest{
 		Url: "http://localhost:8080/success/text",
 	}
@@ -18,8 +18,12 @@ func TestGetProvidesResponseBodyAsString(t *testing.T) {
 		t.Errorf("Expected a successful but got error: %s", err.Error())
 	}
 
+	if response.StatusCode != 200 {
+		t.Errorf("Expected status code to be 200 but got '%d'", response.StatusCode)
+	}
+
 	if response.Body != "Hello, world!" {
-		t.Errorf("Expected response body to be 'Hello, world!' but got '%s'", response)
+		t.Errorf("Expected response body to be 'Hello, world!' but got '%s'", response.Body)
 	}
 }
 
@@ -40,7 +44,11 @@ func TestGetSpecifiesCustomHeaders(t *testing.T) {
 	}
 
 	if response.Body != "Headers Received" {
-		t.Errorf("Expected response body to be 'Headers Received' but got '%s'", response)
+		t.Errorf("Expected response body to be 'Headers Received' but got '%s'", response.Body)
+	}
+
+	if response.StatusCode != 200 {
+		t.Errorf("Expected status code to be 200 but got '%d'", response.StatusCode)
 	}
 }
 

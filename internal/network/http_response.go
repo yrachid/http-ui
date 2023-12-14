@@ -1,5 +1,6 @@
 package network
 
 type HttpResponse struct {
-	Body string
+	StatusCode int
+	Body       string
 }
