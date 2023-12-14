@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/fault/gateway-timeout"
+  },
+  "response": {
+    "status": 504,
+    "body": "<h1>Gateway Timeout</h1>",
+    "headers": {
+        "Content-Type": "text/html"
+    }
+  }
+}
