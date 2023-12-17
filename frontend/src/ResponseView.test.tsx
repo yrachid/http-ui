@@ -24,7 +24,7 @@ describe("ResponseView", () => {
       const statusCode = await screen.findByRole("response-status-code");
 
       expect(body).toHaveTextContent("<html>content</html>");
-      expect(statusCode).toHaveTextContent("200");
+      expect(statusCode).toHaveTextContent("200 OK");
     });
   });
 });
