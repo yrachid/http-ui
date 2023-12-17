@@ -1,5 +1,10 @@
 import Grid from "@mui/joy/Grid";
+import Tab from "@mui/joy/Tab";
+import TabList from "@mui/joy/TabList";
+import Tabs from "@mui/joy/Tabs";
 import styled from "styled-components";
+import { TabPanel } from "@mui/base";
+import { StatusCode } from "./components/response/StatusCode";
 
 export type LastResponse =
   | null
@@ -19,10 +24,6 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
     );
   }
 
-  const StatusCodeContainer = styled.section`
-    padding: 5px;
-  `;
-
   const ResponseBodyContainer = styled.section`
     padding: 5px;
     max-height: 650px;
@@ -40,14 +41,19 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
       }}
     >
       <Grid xs={12}>
-        <StatusCodeContainer role="response-status-code">
-          {props.lastResponse.response.statusCode}
-        </StatusCodeContainer>
+        <StatusCode statusCode={props.lastResponse.response.statusCode} />
       </Grid>
       <Grid xs={12}>
-        <ResponseBodyContainer role="response-body-content">
-          <code>{props.lastResponse.response.body}</code>
-        </ResponseBodyContainer>
+        <Tabs defaultValue={0}>
+          <TabList>
+            <Tab>Body</Tab>
+          </TabList>
+          <TabPanel value={0}>
+            <ResponseBodyContainer role="response-body-content">
+              <code>{props.lastResponse.response.body}</code>
+            </ResponseBodyContainer>
+          </TabPanel>
+        </Tabs>
       </Grid>
     </Grid>
   );
