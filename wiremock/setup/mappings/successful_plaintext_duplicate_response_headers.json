@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/success/text/multi-value-response-header"
+  },
+
+  "response": {
+    "status": 200,
+    "body": "Hello, world!",
+    "headers": {
+      "Content-Type": "text/plain",
+      "Custom-Header": ["value-1", "value-2"]
+    }
+  }
+}
