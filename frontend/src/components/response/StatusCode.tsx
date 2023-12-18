@@ -1,5 +1,5 @@
 export type StatuCodeProps = {
-  statusCode: number;
+  code: number;
 };
 
 const STATUS_CODE_TEXT: Record<number, string> = {
@@ -12,6 +12,6 @@ const STATUS_CODE_TEXT: Record<number, string> = {
 
 export const StatusCode = (props: StatuCodeProps) => (
   <div role="response-status-code">
-    Status: {props.statusCode} {STATUS_CODE_TEXT[props.statusCode] ?? ""}
+    Status: {props.code} {STATUS_CODE_TEXT[props.code] ?? ""}
   </div>
 );

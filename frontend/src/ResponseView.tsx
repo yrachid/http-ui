@@ -11,6 +11,12 @@ export type LastResponse =
   | { successful: true; response: { body: string; statusCode: number } }
   | { successful: false; error: string };
 
+const ResponseBodyContainer = styled.section`
+  padding: 5px;
+  max-height: 650px;
+  overflow: scroll;
+`;
+
 export const ResponseView = (props: { lastResponse: LastResponse }) => {
   if (props.lastResponse === null) {
     return <p>Waiting for a request to be made...</p>;
@@ -24,12 +30,6 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
     );
   }
 
-  const ResponseBodyContainer = styled.section`
-    padding: 5px;
-    max-height: 650px;
-    overflow: scroll;
-  `;
-
   return (
     <Grid
       xs={11}
@@ -41,7 +41,7 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
       }}
     >
       <Grid xs={12}>
-        <StatusCode statusCode={props.lastResponse.response.statusCode} />
+        <StatusCode code={props.lastResponse.response.statusCode} />
       </Grid>
       <Grid xs={12}>
         <Tabs defaultValue={0}>
