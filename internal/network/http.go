@@ -37,6 +37,7 @@ func (client *HttpClient) Get(request HttpRequest) (*HttpResponse, error) {
 	var res = &HttpResponse{
 		StatusCode: response.StatusCode,
 		Body:       string(responseBodyBytes),
+		Headers:    response.Header,
 	}
 
 	return res, nil

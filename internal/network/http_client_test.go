@@ -27,6 +27,39 @@ func TestGetProvidesResponseBodyAsStringAndStatusCode(t *testing.T) {
 	}
 }
 
+func TestGetPreservesMultiValueHeaders(t *testing.T) {
+	request := HttpRequest{
+		Url: "http://localhost:8080/success/text/multi-value-response-header",
+	}
+
+	client := NewHttpClient()
+
+	response, err := client.Get(request)
+
+	if err != nil {
+		t.Errorf("Expected a successful but got error: %s", err.Error())
+	}
+
+	customHeader := response.Headers["Custom-Header"]
+
+	if response.StatusCode != 200 {
+		t.Errorf("Expected status code to be 200 but got '%d'", response.StatusCode)
+	}
+
+	if len(customHeader) != 2 {
+		t.Errorf("Unexpected number of values for custom header. Expected 2, got %d", len(customHeader))
+		t.FailNow()
+	}
+
+	if customHeader[0] != "value-1" {
+		t.Errorf("Expected first value of custom header to be '' but got: %s", customHeader[0])
+	}
+
+	if customHeader[1] != "value-2" {
+		t.Errorf("Expected second value of custom header to be '' but got: %s", customHeader[1])
+	}
+}
+
 func TestGetSpecifiesCustomHeaders(t *testing.T) {
 	request := HttpRequest{
 		Url: "http://localhost:8080/success/text/custom-headers",
