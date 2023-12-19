@@ -2,10 +2,10 @@ import Grid from "@mui/joy/Grid";
 import Tab from "@mui/joy/Tab";
 import TabList from "@mui/joy/TabList";
 import Tabs from "@mui/joy/Tabs";
-import styled from "styled-components";
 import { TabPanel } from "@mui/base";
 import { StatusCode } from "./components/response/StatusCode";
 import { ResponseHeaders } from "./components/response/ResponseHeaders";
+import { ResponseBody } from "./components/response/ResponseBody";
 
 export type LastResponse =
   | null
@@ -18,12 +18,6 @@ export type LastResponse =
       };
     }
   | { successful: false; error: string };
-
-const ResponseBodyContainer = styled.section`
-  padding: 5px;
-  max-height: 650px;
-  overflow: scroll;
-`;
 
 export const ResponseView = (props: { lastResponse: LastResponse }) => {
   if (props.lastResponse === null) {
@@ -58,9 +52,7 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
             <Tab>Headers</Tab>
           </TabList>
           <TabPanel value={0}>
-            <ResponseBodyContainer role="response-body-content">
-              <code>{props.lastResponse.response.body}</code>
-            </ResponseBodyContainer>
+            <ResponseBody body={props.lastResponse.response.body} />
           </TabPanel>
           <TabPanel value={1}>
             <ResponseHeaders headers={props.lastResponse.response.headers} />
