@@ -63,9 +63,7 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
             </ResponseBodyContainer>
           </TabPanel>
           <TabPanel value={1}>
-            <ResponseBodyContainer role="response-body-content">
-              <ResponseHeaders headers={props.lastResponse.response.headers} />
-            </ResponseBodyContainer>
+            <ResponseHeaders headers={props.lastResponse.response.headers} />
           </TabPanel>
         </Tabs>
       </Grid>
