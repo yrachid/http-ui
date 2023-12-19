@@ -5,10 +5,18 @@ import Tabs from "@mui/joy/Tabs";
 import styled from "styled-components";
 import { TabPanel } from "@mui/base";
 import { StatusCode } from "./components/response/StatusCode";
+import { ResponseHeaders } from "./components/response/ResponseHeaders";
 
 export type LastResponse =
   | null
-  | { successful: true; response: { body: string; statusCode: number } }
+  | {
+      successful: true;
+      response: {
+        body: string;
+        statusCode: number;
+        headers: Record<string, string[]>;
+      };
+    }
   | { successful: false; error: string };
 
 const ResponseBodyContainer = styled.section`
@@ -47,10 +55,16 @@ export const ResponseView = (props: { lastResponse: LastResponse }) => {
         <Tabs defaultValue={0}>
           <TabList>
             <Tab>Body</Tab>
+            <Tab>Headers</Tab>
           </TabList>
           <TabPanel value={0}>
             <ResponseBodyContainer role="response-body-content">
               <code>{props.lastResponse.response.body}</code>
+            </ResponseBodyContainer>
+          </TabPanel>
+          <TabPanel value={1}>
+            <ResponseBodyContainer role="response-body-content">
+              <ResponseHeaders headers={props.lastResponse.response.headers} />
             </ResponseBodyContainer>
           </TabPanel>
         </Tabs>

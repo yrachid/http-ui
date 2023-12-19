@@ -31,7 +31,7 @@ export const RequestPage = () => {
         console.debug("Received response from Go client", data);
         setLastResponse({
           successful: true,
-          response: { body: data.Body, statusCode: data.StatusCode },
+          response: { body: data.Body, statusCode: data.StatusCode, headers: data.Headers },
         });
       })
       .catch((err) => {

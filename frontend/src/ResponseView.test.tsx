@@ -13,6 +13,7 @@ describe("ResponseView", () => {
             response: {
               body: "<html>content</html>",
               statusCode: 200,
+              headers: {},
             },
           }}
         />
