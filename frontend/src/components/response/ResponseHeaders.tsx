@@ -1,4 +1,5 @@
 import Input from "@mui/joy/Input";
+import Table from "@mui/joy/Table";
 import Grid from "@mui/joy/Grid";
 
 export type ResponseHeadersProps = {
@@ -28,33 +29,25 @@ type HeaderProps = {
 
 const Header = (props: HeaderProps) => {
   return (
-    <>
-      <Grid xs={6}>
-        <Input
-          sx={{ borderRadius: "0px", fontFamily: "monospace" }}
-          value={props.name}
-          disabled
-        />
-      </Grid>
-      <Grid xs={6}>
-        <Input
-          sx={{ borderRadius: "0px", fontFamily: "monospace" }}
-          value={props.value}
-          disabled
-        />
-      </Grid>
-    </>
+    <tr role="response-header">
+      <td>{props.name}: </td>
+      <td>{props.value}</td>
+    </tr>
   );
 };
 
 export const ResponseHeaders = (props: ResponseHeadersProps) => (
   <Grid container role="response-headers">
-    {flattenHeaders(props.headers).map((flattenedHeader, index) => (
-      <Header
-        name={flattenedHeader.name}
-        value={flattenedHeader.value}
-        key={`${index}${flattenedHeader.name}${flattenedHeader.value}`}
-      />
-    ))}
+    <Table>
+      <tbody>
+        {flattenHeaders(props.headers).map((flattenedHeader, index) => (
+          <Header
+            name={flattenedHeader.name}
+            value={flattenedHeader.value}
+            key={`${index}${flattenedHeader.name}${flattenedHeader.value}`}
+          />
+        ))}
+      </tbody>
+    </Table>
   </Grid>
 );
